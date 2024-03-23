@@ -75,14 +75,14 @@ jobs:
               > rustypaste-cli-${{ env.RELEASE_VERSION }}-${{ matrix.config.TARGET }}.tar.gz.sha512
           fi
 
-      - name: Upload the release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: rustypaste-cli-${{ env.RELEASE_VERSION }}-${{ matrix.config.TARGET }}.*
-          file_glob: true
-          overwrite: true
-          tag: ${{ github.ref }}
+      # - name: Upload the release
+      #   uses: svenstaro/upload-release-action@v2
+      #   with:
+      #     repo_token: ${{ secrets.GITHUB_TOKEN }}
+      #     file: rustypaste-cli-${{ env.RELEASE_VERSION }}-${{ matrix.config.TARGET }}.*
+      #     file_glob: true
+      #     overwrite: true
+      #     tag: ${{ github.ref }}
 
   # publish-crates-io:
   #   name: Publish on crates.io
