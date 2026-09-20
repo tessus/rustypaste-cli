@@ -306,13 +306,19 @@ impl<'a> Uploader<'a> {
     }
 
     /// Retrieves and prints the files on server.
-    pub fn retrieve_list<Output: Write>(&self, output: &mut Output, prettify: bool) -> Result<()> {
+    pub fn retrieve_list<Output: Write>(&self, output: &mut Output) -> Result<()> {
         let url = self.retrieve_url("list")?;
         let mut request = self.client.get(url.as_str());
         if let Some(auth_token) = &self.config.server.auth_token {
             request = request.header("Authorization", auth_token.expose_secret());
         }
         let mut response = request.call()?;
+        let prettify = &self
+            .config
+            .style
+            .as_ref()
+            .and_then(|style| style.prettify)
+            .unwrap_or(false);
         if !prettify {
             writeln!(output, "{}", response.body_mut().read_to_string()?)?;
             return Ok(());

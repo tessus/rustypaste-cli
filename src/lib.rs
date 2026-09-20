@@ -81,14 +81,14 @@ pub fn run(args: Args) -> Result<()> {
         return Ok(());
     }
 
+    let prettify = config
+        .style
+        .as_ref()
+        .and_then(|style| style.prettify)
+        .unwrap_or(false);
+
     if args.list_files {
-        let prettify = args.prettify
-            || config
-                .style
-                .as_ref()
-                .map(|style| style.prettify)
-                .unwrap_or(false);
-        uploader.retrieve_list(&mut io::stdout(), prettify)?;
+        uploader.retrieve_list(&mut io::stdout())?;
         return Ok(());
     }
 
@@ -111,12 +111,7 @@ pub fn run(args: Args) -> Result<()> {
             }
         }
     }
-    let prettify = args.prettify
-        || config
-            .style
-            .as_ref()
-            .map(|style| style.prettify)
-            .unwrap_or(false);
+
     let format_padding = prettify
         .then(|| results.iter().map(|v| v.0.len()).max())
         .flatten()

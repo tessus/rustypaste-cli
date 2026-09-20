@@ -53,7 +53,7 @@ pub struct PasteConfig {
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct StyleConfig {
     /// Whether if the output will be prettified.
-    pub prettify: bool,
+    pub prettify: Option<bool>,
 }
 
 impl Config {
@@ -79,6 +79,11 @@ impl Config {
         }
         if args.filename.is_some() {
             self.paste.filename = args.filename.as_ref().cloned();
+        }
+        if args.prettify {
+            self.style = Some(StyleConfig {
+                prettify: Some(true),
+            });
         }
     }
 
